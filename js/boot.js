@@ -44,7 +44,11 @@
   if (!lang) lang = offered(C.defaultLanguage) || langs[0];
 
   root.lang = lang;
-  // The page is written in English; hide it for a moment while another language is applied
-  if (lang !== 'en') root.classList.add('i18n-pending');
+  // The page is written in English; hide it for a moment while another language is applied.
+  // Do the same when the address points to a practice area page (#criminal-defence and so on),
+  // so the home page does not flash up before the area page is drawn.
+  var hash = location.hash.slice(1);
+  var homeIds = /^(top|main|areas|lawyers|process|fees|faq|contact|book|[a-z]{2})?$/i;
+  if (lang !== 'en' || !homeIds.test(hash)) root.classList.add('i18n-pending');
   window.__LS_LANG = lang;
 })();
